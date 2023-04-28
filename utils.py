@@ -3,6 +3,7 @@ import numpy as np
 import torch
 from epidemic_env.env import Observation, ModelDynamics
 from constants import *
+from collections import namedtuple
 
 class Utils : 
     def action_preprocessor(a:torch.Tensor, dyn:ModelDynamics):
@@ -26,6 +27,15 @@ class Utils :
         
     def observation_preprocessor(obs: Observation, dyn:ModelDynamics):
         infected = Constants.SCALE * np.array([np.array(obs.city[c].infected)/obs.pop[c] for c in dyn.cities])
+        # compute power 1/4 of the infected
+        infected = np.power(infected, 1/4)
+
         dead = Constants.SCALE * np.array([np.array(obs.city[c].infected)/obs.pop[c] for c in dyn.cities])
-        confined = np.ones_like(dead)*int((dyn.get_action()['confinement']))
-        return torch.Tensor(np.stack((infected, dead, confined))).unsqueeze(0)
+        # compute power 1/4 of the dead
+        dead = np.power(dead, 1/4)
+        
+        return torch.Tensor(np.stack((dead, infected))).unsqueeze(0)
+    
+
+    Transition = namedtuple('Transition',
+                        ('state', 'action', 'next_state', 'reward'))
