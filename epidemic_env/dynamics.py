@@ -36,6 +36,7 @@ class Observation():
     pop: Dict[str,float] # Contains the original population of each city
     city: Dict[str, Observables]
     total: Observables
+    action: Dict[str, bool]
 
 
 class ModelDynamics():
@@ -233,7 +234,7 @@ class ModelDynamics():
         return {'confinement': (self.c_confined[_c] != 1),
         'isolation': (self.c_isolated[_c] != 1),
         'vaccinate': (self.vaccinate[_c] != 0),
-        'hospital': (self.extra_hospital_beds[_c] != 1),
+         'hospital': (self.extra_hospital_beds[_c] != 1)
         }
         
     
@@ -269,6 +270,7 @@ class ModelDynamics():
                 total   :   list(dict(measurements)) (over 7 days)
                 city    :   dict(list(dict(measurements))) (over 7 days, per city)
                 pop    :    dict(int) initial per-city population (to allow normalization)
+                action  :   dict(bool) (over 7 days, per city)
 
     """
         _total_history = []
@@ -296,6 +298,7 @@ class ModelDynamics():
             pop=_pop,
             city=_city,
             total=_total,
+            action=self.get_action(),
         )
 
     """ Step forward in the epidemic dynamics

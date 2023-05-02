@@ -209,8 +209,14 @@ class Env(gym.Env):
         for c in self.dyn.cities:
             self.dyn.set_action(self._parse_action(action), c)
         _obs = self.dyn.step()
+        
+       
+       
         self.last_obs = self.get_obs(_obs)
 
+     
+
+     
         r = self.compute_reward(_obs)
         self.reward     = r.reward
         self.dead_cost  = r.dead
@@ -247,7 +253,12 @@ class Env(gym.Env):
             self.dyn.start_epidemic(seed)
 
         _obs = self.dyn.step() # This obs is Obs class
+
+      
+       
         self.last_obs = self.get_obs(_obs) # This obs might be tensorized
+
+        
         self.last_info = self._get_info()
         return self.last_obs, self.last_info
 
