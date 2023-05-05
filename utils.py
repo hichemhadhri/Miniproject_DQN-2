@@ -12,14 +12,10 @@ class Utils :
 
         if a == Constants.ACTION_NULL:
 
-          
-
             return last_action
         
-
-        
         if a == Constants.ACTION_CONFINE:
-            last_action['confinement'] = not  last_action['confinement']
+            last_action['confinement'] = not last_action['confinement']
         elif a == Constants.ACTION_ISOLATE:
             last_action['isolation'] = not last_action['isolation']
         elif a == Constants.ACTION_VACCINATE:
@@ -55,7 +51,7 @@ class Utils :
         
 
 
-       
+ 
 
        
 
